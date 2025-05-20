@@ -2,12 +2,36 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './App.jsx';
+import Contact from 'postcss/lib/comment';
+import About from './pages/About.jsx';
 import './index.css';
+import ErrorPage from './pages/ErrorPage.jsx';
+import CanvasDetail from './pages/CanvasDetail.jsx';
+import Home from './pages/Home.jsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <div>Hello world!</div>,
+    element: <App />,
+    children: [
+      {
+        path: '',
+        element: <Home />,
+      },
+      {
+        path: 'about',
+        element: <About />,
+      },
+      {
+        path: 'contact',
+        element: <Contact />,
+      },
+      {
+        path: 'canvasdetail/:id',
+        element: <CanvasDetail />,
+      },
+    ],
+    errorElement: <ErrorPage />,
   },
 ]);
 
