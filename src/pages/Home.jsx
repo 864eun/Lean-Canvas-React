@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { FaSearch, FaList, FaTh } from 'react-icons/fa';
+import { FaList, FaTh } from 'react-icons/fa';
 import CanvasList from '../components/TailwindCss/CanvasList';
+import SearchBar from '../components/TailwindCss/SearchBar';
 
 function Home() {
   const [searchtext, setSearchText] = useState('');
@@ -39,15 +40,7 @@ function Home() {
     <div className="container mx-auto px-4 py-16">
       <div className="mb-6 flex flex-col sm:flex-row items-center justify-between">
         <div className="relative w-full sm:w-64 mb-4 sm:mb-0">
-          <input
-            type="text"
-            placeholder="검색"
-            className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            aria-label="검색"
-            value={searchtext}
-            onChange={e => setSearchText(e.target.value)}
-          />
-          <FaSearch className="absolute left-3 top-3 text-gray-400" />
+          <SearchBar searchtext={searchtext} setSearchText={setSearchText} />
         </div>
         <div className="flex space-x-2">
           <button
