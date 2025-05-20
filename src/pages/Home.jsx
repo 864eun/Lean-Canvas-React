@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { FaList, FaTh } from 'react-icons/fa';
 import CanvasList from '../components/TailwindCss/CanvasList';
 import SearchBar from '../components/TailwindCss/SearchBar';
+import ViewToggle from '../components/TailwindCss/ViewToggle';
 
 function Home() {
   const [searchtext, setSearchText] = useState('');
@@ -39,28 +39,8 @@ function Home() {
   return (
     <div className="container mx-auto px-4 py-16">
       <div className="mb-6 flex flex-col sm:flex-row items-center justify-between">
-        <div className="relative w-full sm:w-64 mb-4 sm:mb-0">
-          <SearchBar searchtext={searchtext} setSearchText={setSearchText} />
-        </div>
-        <div className="flex space-x-2">
-          <button
-            className={`p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              isGridView ? 'bg-blue-500 text-white' : 'bg-gray-200'
-            }`}
-            aria-label="Grid view"
-            onClick={() => setIsGridView(true)}
-          >
-            <FaTh />
-          </button>
-          <button
-            className={`p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500
-              ${!isGridView ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
-            aria-label="List view"
-            onClick={() => setIsGridView(false)}
-          >
-            <FaList />
-          </button>
-        </div>
+        <SearchBar searchtext={searchtext} setSearchText={setSearchText} />
+        <ViewToggle isGridView={isGridView} setIsGridView={setIsGridView} />
       </div>
       <CanvasList
         filterdData={filterdData}

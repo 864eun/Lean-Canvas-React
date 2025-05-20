@@ -2,7 +2,7 @@ import { FaSearch } from 'react-icons/fa';
 
 function SearchBar({ searchtext, setSearchText }) {
   return (
-    <>
+    <div className="relative w-full sm:w-64 mb-4 sm:mb-0">
       <input
         type="text"
         placeholder="검색"
@@ -12,7 +12,7 @@ function SearchBar({ searchtext, setSearchText }) {
         onChange={e => setSearchText(e.target.value)}
       />
       <FaSearch className="absolute left-3 top-3 text-gray-400" />
-    </>
+    </div>
   );
 }
 
