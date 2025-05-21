@@ -1,18 +1,11 @@
-import { useParams, useSearchParams, useLocation } from 'react-router-dom';
+import CanvasTitle from '../components/TailwindCss/CanvasTitle';
+import LeanCanvas from '../components/TailwindCss/LeanCanvas';
 
 function CanvasDetail() {
-  const { id } = useParams();
-  const [searchParams] = useSearchParams();
-  const location = useLocation();
-
   return (
     <>
-      <div>
-        <h2>param 추출</h2>
-        <p>param : {id}</p>
-        <p>keword : {searchParams.get('keyword')}</p>
-        <p>hash : {location.hash}</p>
-      </div>
+      <CanvasTitle />
+      <LeanCanvas />
     </>
   );
 }

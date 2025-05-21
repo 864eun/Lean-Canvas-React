@@ -19,6 +19,7 @@ function CanvasList({ filterdData, searchtext, isGridView, onDeleteItem }) {
         {filterdData.map(item => (
           <CanvasItem
             key={item.id}
+            id={item.id}
             title={item.title}
             lastModified={item.lastModified}
             category={item.category}
