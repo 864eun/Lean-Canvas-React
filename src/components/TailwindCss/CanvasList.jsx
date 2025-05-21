@@ -1,7 +1,7 @@
 import CanvasItem from './CanvasItem';
 
-function CanvasList({ filterdData, searchtext, isGridView, onDeleteItem }) {
-  if (filterdData.length === 0) {
+function CanvasList({ filteredData, searchtext, isGridView, onDeleteItem }) {
+  if (filteredData.length === 0) {
     return (
       <div className="text-center py-10">
         <p className="text-xl text-gray-600">
@@ -16,7 +16,7 @@ function CanvasList({ filterdData, searchtext, isGridView, onDeleteItem }) {
           isGridView ? 'sm:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'
         }`}
       >
-        {filterdData.map(item => (
+        {filteredData.map(item => (
           <CanvasItem
             key={item.id}
             id={item.id}
