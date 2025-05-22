@@ -6,6 +6,9 @@ import { useEffect } from 'react';
 import { getCanvases } from '../api/canvas';
 import Loading from '../components/TailwindCss/Loading';
 import Error from '../components/TailwindCss/Error';
+import { createCanvas } from '../api/canvas';
+import Button from '../components/TailwindCss/Button';
+import { deleteCanvas } from '../api/canvas';
 
 function Home() {
   const [searchText, setSearchText] = useState();
@@ -31,8 +34,30 @@ function Home() {
     fetchData({ title_like: searchText });
   }, [searchText]);
 
-  const handleDeleteItem = id => {
-    setData(data.filter(item => item.id !== id));
+  const handleDeleteItem = async id => {
+    if (confirm('삭세하시겠습니까 ?') === false) {
+      return;
+    }
+    try {
+      await deleteCanvas(id);
+      fetchData({ title_like: searchText }); //전체 리스트 로딩
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  const [isLoadingCreate, setIsLoadingCreate] = useState(false);
+  const handleCreateCanvas = async () => {
+    try {
+      setIsLoadingCreate(true);
+      console.log('등록 버튼 클릭');
+      await createCanvas(); //등록
+      fetchData({ title_like: searchText }); //전체 리스트 로딩
+    } catch (err) {
+      alert(err.message);
+    } finally {
+      setIsLoadingCreate(false);
+    }
   };
 
   return (
@@ -40,6 +65,11 @@ function Home() {
       <div className="mb-6 flex flex-col sm:flex-row items-center justify-between">
         <SearchBar searchText={searchText} setSearchText={setSearchText} />
         <ViewToggle isGridView={isGridView} setIsGridView={setIsGridView} />
+      </div>
+      <div className="flex justify-end mb-6">
+        <Button onClick={handleCreateCanvas} loading={isLoadingCreate}>
+          등록하기
+        </Button>
       </div>
       {isLoading && <Loading />}
       {error && (
