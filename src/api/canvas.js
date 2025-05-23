@@ -25,3 +25,16 @@ export function createCanvas() {
 export async function deleteCanvas(id) {
   await canvases.delete(`/${id}`);
 }
+
+export async function getCanvasById(id) {
+  const { data } = await canvases.get(`/${id}`);
+  return data;
+}
+
+export async function updateTitle(id, title) {
+  await canvases.patch(`/${id}`, { title });
+}
+
+export async function updateCanvas(id, canvas) {
+  await canvases.put(`/${id}`, canvas);
+}

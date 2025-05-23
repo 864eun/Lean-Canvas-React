@@ -1,23 +1,78 @@
 import CanvasCard from './CanvasCard';
 
-function LeanCanvas() {
+function LeanCanvas({ canvas, onCanvasChange }) {
+  const handleNotesChange = (section, updateNotes) => {
+    // ❌ 함수 오타
+    const updatedCanvas = {
+      ...canvas,
+      [section]: {
+        ...canvas[section],
+        notes: updateNotes,
+      },
+    };
+    onCanvasChange(updatedCanvas); // ❌ undefined 참조
+  };
+
   return (
     <div className="border-4 border-black">
       <div className="grid grid-cols-5">
-        <CanvasCard title={'1. 문제'} content={'메모'} />
-        <CanvasCard title={'4. 해결안'} content={'메모'} />
-        <CanvasCard title={'3. 가치제안'} content={'메모'} />
-        <CanvasCard title={'5. 경쟁우위'} content={'메모'} />
-        <CanvasCard title={'2. 목표고객'} content={'메모'} />
-        <CanvasCard title={'기존 대안'} content={'메모'} isSubtitle={true} />
-        <CanvasCard title={'8. 핵심지표'} content={'메모'} />
-        <CanvasCard title={'상위 개념'} content={'메모'} isSubtitle={true} />
-        <CanvasCard title={'9. 고객경로'} content={'메모'} />
-        <CanvasCard title={'얼리 어답터'} content={'메모'} isSubtitle={true} />
+        <CanvasCard
+          title={'1. 문제'}
+          notes={canvas.problem.notes}
+          onNotesChange={notes => handleNotesChange('problem', notes)}
+        />
+        <CanvasCard
+          title={'4. 해결안'}
+          notes={canvas.solution.notes}
+          onNotesChange={notes => handleNotesChange('problem', notes)}
+        />
+        <CanvasCard
+          title={'3. 가치제안'}
+          notes={canvas.valueProposition.notes}
+          onNotesChange={notes => handleNotesChange('problem', notes)}
+        />
+        <CanvasCard
+          title={'5. 경쟁우위'}
+          notes={canvas.unfairAdvantage.notes}
+          onNotesChange={notes => handleNotesChange('problem', notes)}
+        />
+        <CanvasCard
+          title={'2. 목표 고객'}
+          notes={canvas.customerSegments.notes}
+          onNotesChange={notes => handleNotesChange('problem', notes)}
+        />
+        <CanvasCard
+          title={'기존 대안'}
+          isSubtitle
+          notes={canvas.existingAlternatives.notes}
+          onNotesChange={notes => handleNotesChange('problem', notes)}
+        />
+        <CanvasCard
+          title={'8. 핵심지표'}
+          notes={canvas.keyMetrics.notes}
+          onNotesChange={notes => handleNotesChange('problem', notes)}
+        />
+        <CanvasCard
+          title={'상위개념'}
+          isSubtitle
+          notes={canvas.highLevelConcept.notes}
+          onNotesChange={notes => handleNotesChange('problem', notes)}
+        />
+        <CanvasCard title={'9. 고객 경로'} notes={canvas.channels.notes} />
+        <CanvasCard
+          title={'얼리 어답터'}
+          isSubtitle
+          notes={canvas.earlyAdopters.notes}
+          onNotesChange={notes => handleNotesChange('problem', notes)}
+        />
       </div>
       <div className="grid grid-cols-2">
-        <CanvasCard title={'7. 비용구조'} content={'메모'} />
-        <CanvasCard title={'6. 수익 흐름'} content={'메모'} />
+        <CanvasCard title={'7. 비용 구조'} notes={canvas.costStructure.notes} />
+        <CanvasCard
+          title={'6. 수익 흐름'}
+          notes={canvas.revenueStreams.notes}
+          onNotesChange={notes => handleNotesChange('problem', notes)}
+        />
       </div>
     </div>
   );
