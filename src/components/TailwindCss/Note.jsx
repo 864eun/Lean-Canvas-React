@@ -32,9 +32,11 @@ const Note = ({
     }
   }, [content]);
 
-  const handleContentChange = e => {
-    onUpdateNote(id, e.target.value, color);
+  const handleContentChange = () => {
+    onUpdateNote(id, localContent, color);
   };
+
+  const [localContent, setLocalContent] = useState(content);
 
   return (
     <div
@@ -57,7 +59,10 @@ const Note = ({
           <button
             aria-label="Close Note"
             className="text-gray-700"
-            onClick={() => onRemoveNote(id)}
+            onClick={e => {
+              e.stopPropagation();
+              onRemoveNote(id);
+            }}
           >
             <AiOutlineClose size={20} />
           </button>
@@ -65,13 +70,14 @@ const Note = ({
       </div>
       <textarea
         ref={textareaRef}
-        value={content}
+        value={localContent}
         className={`w-full h-full bg-transparent resize-none border-none focus:outline-none text-gray-900 overflow-hidden`}
         aria-label="Edit Note"
         placeholder="메모를 작성하세요."
         style={{ height: 'auto', minHeight: '8rem' }}
         readOnly={!isEditing}
-        onChange={handleContentChange}
+        onChange={e => setLocalContent(e.target.value)}
+        onBlur={handleContentChange}
       />
       {isEditing && (
         <div className="flex space-x-2">
