@@ -21,6 +21,11 @@ const Note = ({
     return colorOptions[randomIndex];
   });
 
+  const handleColorChange = newColor => {
+    setColor(newColor);
+    onUpdateNote(id, content, newColor);
+  };
+
   const [isEditing, setIsEditing] = useState(false);
 
   const textareaRef = useRef(null);
@@ -85,7 +90,7 @@ const Note = ({
             <button
               key={index}
               className={`w-6 h-6 rounded-full cursor-pointer outline outline-gray-50 ${option}`}
-              onClick={() => setColor(option)}
+              onClick={() => handleColorChange(option)}
               aria-label={`Change color to ${option}`}
             />
           ))}

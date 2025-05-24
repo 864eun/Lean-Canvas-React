@@ -9,59 +9,65 @@ import Error from '../components/TailwindCss/Error';
 import { createCanvas } from '../api/canvas';
 import Button from '../components/TailwindCss/Button';
 import { deleteCanvas } from '../api/canvas';
+import useApiRequest from '../hooks/useApiRequest';
 
 function Home() {
   const [searchText, setSearchText] = useState();
   const [isGridView, setIsGridView] = useState(true);
   const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  async function fetchData(params) {
-    try {
-      setIsLoading(true);
-      setError(null);
-      const response = await getCanvases(params);
-      setData(response.data);
-    } catch (err) {
-      setError(err);
-    } finally {
-      setIsLoading(false);
-    }
-  }
+  // API call
+  const { isLoading, error, execute: fetchData } = useApiRequest(getCanvases);
+  const { isLoading: isLoadingCreate, execute: createNewCanvas } =
+    useApiRequest(createCanvas);
 
   useEffect(() => {
-    fetchData({ title_like: searchText });
-  }, [searchText]);
+    fetchData(
+      { title_like: searchText },
+      {
+        onSuccess: response => setData(response.data),
+      },
+    );
+  }, [searchText, fetchData]);
 
   const handleDeleteItem = async id => {
-    if (confirm('삭세하시겠습니까 ?') === false) {
+    if (confirm('삭제 하시겠습니까?') === false) {
       return;
     }
     try {
       await deleteCanvas(id);
-      fetchData({ title_like: searchText }); //전체 리스트 로딩
+      fetchData({ title_like: searchText });
     } catch (err) {
       alert(err.message);
     }
   };
 
-  const [isLoadingCreate, setIsLoadingCreate] = useState(false);
   const handleCreateCanvas = async () => {
-    try {
-      setIsLoadingCreate(true);
-      console.log('등록 버튼 클릭');
-      await createCanvas(); //등록
-      fetchData({ title_like: searchText }); //전체 리스트 로딩
-    } catch (err) {
-      alert(err.message);
-    } finally {
-      setIsLoadingCreate(false);
-    }
+    createNewCanvas(null, {
+      onSuccess: () => {
+        fetchData(
+          { title_like: searchText },
+          {
+            onSuccess: response => setData(response.data),
+          },
+        );
+      },
+      onError: err => alert(err.message),
+    });
+    // try {
+    //   setIsLoadingCreate(true);
+    //   await new Promise(resolver => setTimeout(resolver, 1000));
+    //   await createCanvas();
+    //   fetchData({ title_like: searchText });
+    // } catch (err) {
+    //   alert(err.message);
+    // } finally {
+    //   setIsLoadingCreate(false);
+    // }
   };
 
   return (
-    <div className="container mx-auto px-4 py-16">
+    <>
       <div className="mb-6 flex flex-col sm:flex-row items-center justify-between">
         <SearchBar searchText={searchText} setSearchText={setSearchText} />
         <ViewToggle isGridView={isGridView} setIsGridView={setIsGridView} />
@@ -86,7 +92,7 @@ function Home() {
           onDeleteItem={handleDeleteItem}
         />
       )}
-    </div>
+    </>
   );
 }
 
