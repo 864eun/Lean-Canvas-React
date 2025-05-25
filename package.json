@@ -13,6 +13,7 @@
     "db": "json-server data/db.json -p 8000"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.77.0",
     "axios": "^1.9.0",
     "dayjs": "^1.11.13",
     "json-server": "^0.17.4",

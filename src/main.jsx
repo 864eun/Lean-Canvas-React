@@ -8,6 +8,7 @@ import './index.css';
 import ErrorPage from './pages/ErrorPage.jsx';
 import CanvasDetail from './pages/CanvasDetail.jsx';
 import Home from './pages/Home.jsx';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const router = createBrowserRouter([
   {
@@ -34,9 +35,12 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
 ]);
+const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   </React.StrictMode>,
 );
